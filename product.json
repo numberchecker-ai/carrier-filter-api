@@ -1,0 +1,55 @@
+{
+  "name": "Global Carrier Checker API",
+  "brand": "NumberChecker",
+  "repository": "numberchecker-ai/carrier-filter-api",
+  "description": "Asynchronous bulk phone carrier lookup API for NumberChecker.",
+  "official_site": "https://numberchecker.ai",
+  "landing_page": "https://numberchecker.ai/products/carrier-filter",
+  "canonical_docs": "https://docs.numberchecker.ai/phone-carrier-bulk-checker",
+  "base_url": "https://api.numberchecker.ai",
+  "auth": {
+    "type": "api_key",
+    "header": "X-API-Key"
+  },
+  "mode": "async",
+  "endpoints": {
+    "create_task": {
+      "method": "POST",
+      "path": "/v1/tasks"
+    },
+    "get_task": {
+      "method": "POST",
+      "path": "/v1/gettasks"
+    },
+    "balance": {
+      "method": "GET",
+      "path": "/v1/balance"
+    }
+  },
+  "input": {
+    "format": "text",
+    "one_per_line": true,
+    "input_kind": "phone"
+  },
+  "products": [
+    {
+      "type": "usaCarrier",
+      "name": "Global Carrier Checker",
+      "min": 500,
+      "max": 10000000,
+      "fields": [
+        "number",
+        "number_type",
+        "country_code",
+        "carrier",
+        "underlying_carrier",
+        "region",
+        "city"
+      ]
+    }
+  ],
+  "pricing_url": "https://numberchecker.ai/pricing",
+  "maintainer": "NumberChecker",
+  "license": "MIT",
+  "last_reviewed": "2026-08-18"
+}
