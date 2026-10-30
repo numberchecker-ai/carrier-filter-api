@@ -10,7 +10,7 @@ import java.nio.file.Path;
 
 public class NumberChecker {
     static final String BASE = "https://api.numberchecker.ai";
-    static final String TYPE = "usaCarrier";
+    static final String TYPE = "globalCarrier";
     static final String KEY = requiredKey();
     static final HttpClient HTTP = HttpClient.newHttpClient();
 

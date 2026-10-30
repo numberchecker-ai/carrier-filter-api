@@ -7,7 +7,7 @@ const API_KEY = process.env.NUMBERCHECKER_API_KEY;
 if (!API_KEY) {
   throw new Error("NUMBERCHECKER_API_KEY is required");
 }
-const TASK_TYPE = "usaCarrier";
+const TASK_TYPE = "globalCarrier";
 
 async function submitTask(path) {
   const form = new FormData();

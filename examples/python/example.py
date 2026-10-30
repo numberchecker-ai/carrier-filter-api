@@ -7,7 +7,7 @@ import requests
 
 BASE_URL = os.environ.get("API_BASE_URL", "https://api.numberchecker.ai")
 API_KEY = os.environ["NUMBERCHECKER_API_KEY"]
-TASK_TYPE = "usaCarrier"
+TASK_TYPE = "globalCarrier"
 
 
 def submit_task(file_path):

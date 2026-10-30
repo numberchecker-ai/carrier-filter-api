@@ -13,7 +13,7 @@ import (
 )
 
 const baseURL = "https://api.numberchecker.ai"
-const taskType = "usaCarrier"
+const taskType = "globalCarrier"
 
 type Task struct {
 	TaskID    string `json:"task_id"`

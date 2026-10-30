@@ -6,27 +6,24 @@ The **Global Carrier Checker API** accepts a text file of phone numbers, creates
 - **API documentation:** https://docs.numberchecker.ai/phone-carrier-bulk-checker
 - **API base URL:** `https://api.numberchecker.ai`
 - **Authentication:** `X-API-Key`
-- **Get an API key:** https://platform.numberchecker.ai
+- **Get an API key:** https://platform.numberchecker.ai?utm_source=github&utm_medium=referral&utm_campaign=numberchecker-ai_carrier-filter-api
 
 > [!NOTE]
-> This repository covers the standalone product code `usaCarrier` only. Other product codes are outside its scope.
+> This repository covers the standalone product code `globalCarrier` only. Other product codes are outside its scope.
 
 ## Product facts
 
 | API fact | Value |
 |---|---|
-| Product code | `usaCarrier` |
+| Product code | `globalCarrier` |
 | Input | Text file, one phone per line |
 | Processing mode | Asynchronous bulk task |
-| Minimum batch | 500 identifiers |
 | Maximum batch | 10,000,000 identifiers |
-| Export fields | `number`, `number_type`, `country_code`, `carrier`, `underlying_carrier`, `region`, `city` |
-
-
+| Export fields | `Number`, `number_type`, `country_code`, `carrier`, `underlying_carrier`, `region`, `city` |
 
 ## Workflow
 
-1. Submit the input file to `POST /v1/tasks` with `task_type=usaCarrier`.
+1. Submit the input file to `POST /v1/tasks` with `task_type=globalCarrier`.
 2. Poll `POST /v1/gettasks` with the returned `task_id`.
 3. When `status=exported`, download `result_url`.
 
@@ -35,18 +32,18 @@ export NUMBERCHECKER_API_KEY="YOUR_API_KEY"
 curl -X POST 'https://api.numberchecker.ai/v1/tasks' \
   -H "X-API-Key: $NUMBERCHECKER_API_KEY" \
   -F 'file=@examples/numbers.txt' \
-  -F 'task_type=usaCarrier'
+  -F 'task_type=globalCarrier'
 ```
 
 Task states are `pending`, `processing`, `exported`, and `failed`. Download the result only after export and preserve the returned column names exactly. `GET /v1/balance` reads the current account balance.
 
 ## Input and output
 
-Provide one phone number per line in international E.164 format, including the country code. The exported fields are: `number`, `number_type`, `country_code`, `carrier`, `underlying_carrier`, `region`, `city`.
+Provide one phone number per line in international E.164 format, including the country code. The exported fields are: `Number`, `number_type`, `country_code`, `carrier`, `underlying_carrier`, `region`, `city`.
 
 ## Errors and safe integration
 
-Typical responses include `400` invalid input, `401` invalid API key, `402` insufficient balance, `404` unknown task, `413` oversized upload, and `500` temporary server error. Retry transient `500` responses with capped backoff; correct the input or credentials before retrying other errors. Read keys from `NUMBERCHECKER_API_KEY` and never expose them in browser code or source control. Process only identifiers you are authorized to verify.
+Typical responses include `400` invalid input, `401` invalid API key, `402` insufficient balance, `404` unknown task, `413` oversized upload, and `500` temporary server error. Retry idempotent status reads with capped backoff when appropriate. Do not blindly resubmit task creation after a timeout or server error: the original task may already exist. Correct invalid input or credentials before retrying. Read keys from `NUMBERCHECKER_API_KEY` and never expose them in browser code or source control. Process only identifiers you are authorized to verify.
 
 ## Runnable examples
 
@@ -70,7 +67,7 @@ No. It is an asynchronous bulk API for uploaded lists.
 
 ### Which product does this repository support?
 
-Only `usaCarrier`. The task type is intentionally fixed to that product code.
+Only `globalCarrier`. The task type is intentionally fixed to that product code.
 
 ### Where can I find current pricing?
 
@@ -87,4 +84,14 @@ See the [NumberChecker pricing page](https://numberchecker.ai/pricing). This rep
 
 NumberChecker is not affiliated with the third-party service named by this product family. Use this API only for authorized processing and comply with applicable privacy laws and platform terms.
 
-*Last reviewed: 2026-08-18 · Maintained by NumberChecker.*
+*Last reviewed: 2026-10-30 · Maintained by NumberChecker.*
+
+## Export header verified 2026-10-30
+
+Current sample CSV columns, in order: `Number`, `number_type`, `country_code`, `carrier`, `underlying_carrier`, `region`, `city`. Preserve case, order, spaces and duplicate column names. Use positional CSV parsing when duplicate headers are present; a dictionary keyed only by header name would lose a column.
+
+## Upload and billing limits verified 2026-10-30
+
+- `globalCarrier`: upload 1–10,000,000 entries; minimum billable quantity 500.
+
+Upload minimum and minimum billable quantity are different. A smaller accepted upload can still be billed at the stated minimum; a wholly failed task with zero processed entries is not charged a minimum. A billable quantity of 0 means no billing floor. Check current pricing before submitting.

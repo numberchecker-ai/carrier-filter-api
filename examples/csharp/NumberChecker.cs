@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 class NumberChecker
 {
     const string Base = "https://api.numberchecker.ai";
-    const string Type = "usaCarrier";
+    const string Type = "globalCarrier";
     static readonly HttpClient Http = new();
     static readonly string Key = RequiredKey();
 

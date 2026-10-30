@@ -8,7 +8,7 @@ if [[ -z "$API_KEY" ]]; then
   echo "NUMBERCHECKER_API_KEY is required" >&2
   exit 2
 fi
-TASK_TYPE="usaCarrier"
+TASK_TYPE="globalCarrier"
 INPUT_FILE="${1:-examples/numbers.txt}"
 
 created=$(curl --fail-with-body -sS "$BASE_URL/v1/tasks" \

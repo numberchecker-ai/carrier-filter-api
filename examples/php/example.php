@@ -2,7 +2,7 @@
 // Global Carrier Checker API — PHP + cURL example. Docs: https://docs.numberchecker.ai/phone-carrier-bulk-checker
 
 const BASE_URL = "https://api.numberchecker.ai";
-const TASK_TYPE = "usaCarrier";
+const TASK_TYPE = "globalCarrier";
 
 $key = getenv("NUMBERCHECKER_API_KEY");
 if ($key === false || $key === "") {
